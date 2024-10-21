@@ -7,10 +7,5 @@ namespace CarsCrudWithPagination.Models
         public Car Car { get; set; }
         public Paginition Paginition { get; set; }
     }
-    public class CarsViewModel
-    {
-        public Car Car { get; set; }
-        public IPagedList<Car> OnePageOfCars { get; set; }
-    }
-
+   
 }
