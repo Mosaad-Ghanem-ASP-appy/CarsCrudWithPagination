@@ -1,0 +1,111 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@* @model IEnumerable<CarsCrudWithPagination.Models.Car> *@
+@model IPagedList<Car>
+<link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewData["Title"] = "Index";
+    Car carModel = new();
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @nameof(carModel.CarNo)
+            </th>
+            <th>
+                @nameof(carModel.UserNo)
+            </th>
+            <th>
+                @nameof(carModel.ArName)
+            </th>
+            <th>
+                @nameof(carModel.EnName)
+            </th>
+            <th>
+                @nameof(carModel.CardNo)
+            </th>
+            <th>
+                @nameof(carModel.BeginDate)
+            </th>
+            <th>
+                @nameof(carModel.EndDate)
+            </th>
+            <th>
+                @nameof(carModel.Company)
+            </th>
+            <th>
+                @nameof(carModel.Color)
+            </th>
+            <th>
+                @nameof(carModel.Model)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CardNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BeginDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color.ColorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CarNo">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CarNo">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CarNo">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<nav>
+    @Html.PagedListPager(Model, page => Url.Action("index", new { page = page }), new PagedListRenderOptions()
+{
+    ActiveLiElementClass = "active",
+    PageClasses = new[] { "page-link" },
+    LiElementClasses = new[] { "page-item" },
+    UlElementClasses = new[] { "pagination", "justify-content-center", "mt-3" },
+    // LinkToNextPageFormat = "Next",
+    // LinkToPreviousPageFormat = "Previous",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+})
+</nav>
+

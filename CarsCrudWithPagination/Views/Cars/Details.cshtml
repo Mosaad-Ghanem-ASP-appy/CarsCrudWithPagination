@@ -1,0 +1,121 @@
+﻿@using X.PagedList.Mvc.Core
+@model CarDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="text-center">
+    <div class="card" style="max-width: 600px; margin: auto;">
+        <div class="card-header text-white text-center" style="background-color:#3175b6">
+            @ViewData["Title"]
+        </div>
+        <div class="card-body">
+            <form asp-controller="Cars" asp-action="Edit" asp-route-id="@Model.Car.CarNo" method="post">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">@Html.LabelFor(model => model.Car.CarNo)</span>
+                    <input type="text" class="form-control" asp-for="Car.CarNo" readonly>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">@Html.LabelFor(model => model.Car.UserNo)</span>
+                    <input type="text" class="form-control" asp-for="Car.UserNo">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">@Html.LabelFor(model => model.Car.ArName)</span>
+                    <input type="text" class="form-control" asp-for="Car.ArName">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">@Html.LabelFor(model => model.Car.EnName)</span>
+                    <input type="text" class="form-control" asp-for="Car.EnName">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">@Html.LabelFor(model => model.Car.CardNo)</span>
+                    <input type="text" class="form-control" asp-for="Car.CardNo">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">@Html.LabelFor(model => model.Car.BeginDate)</span>
+                    <input type="date" class="form-control" value="@Model.Car.BeginDate.ToString("yyyy-MM-dd")" asp-for="Car.BeginDate">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">@Html.LabelFor(model => model.Car.EndDate)</span>
+                    <input type="date" class="form-control" value="@Model.Car.EndDate.ToString("yyyy-MM-dd")" asp-for="Car.EndDate">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">@Html.LabelFor(model => model.Car.Company)</span>
+                    <input type="text" class="form-control" asp-for="Car.Company">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">@Html.LabelFor(model => model.Car.Color)</span>
+                    <select asp-for="Car.ColorNo" asp-items="ViewBag.Colors" class="form-control"></select>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">@Html.LabelFor(model => model.Car.Model)</span>
+                    <input type="text" class="form-control" asp-for="Car.Model">
+                </div>
+
+                <div class="form-group row mb-3">
+                    <div class="col-sm-12 text-center">
+                        <button class="btn btn-primary" style="color:white;">
+                            <a style="color:white;" asp-action="Create">New</a>
+                        </button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button class="btn btn-primary" asp-controller="Cars" asp-action="Index">Back</button>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center">
+            <nav class="text-center justify-content-center">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(@Model.Paginition.First == Model.Paginition.Current ? "disabled" : "")">
+                        <a class="page-link" asp-controller="Cars" asp-action="Details" asp-route-id="@Model.Paginition.First" aria-label="First">
+                            <span aria-hidden="true"><<</span>
+                        </a>
+                    </li>
+                    <li class="page-item @(@Model.Paginition.Previous == 0 ? "disabled" : "")">
+                        <a class="page-link" asp-controller="Cars" asp-action="Details" asp-route-id="@Model.Paginition.Previous" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" asp-controller="Cars" asp-action="Details" asp-route-id="@Model.Paginition.Current" aria-label="Current">
+                            <span aria-hidden="true">@Model.Paginition.Current</span>
+                        </a>
+                    </li>
+                    <li class="page-item @(@Model.Paginition.Next == 0 ? "disabled" : "")">
+                        <a class="page-link" asp-controller="Cars" asp-action="Details" asp-route-id="@Model.Paginition.Next" aria-label="Next">
+                            <span aria-hidden="true">></span>
+                        </a>
+                    </li>
+                    <li class="page-item @(@Model.Paginition.Last == Model.Paginition.Current ? "disabled" : "")">
+                        <a class="page-link" asp-controller="Cars" asp-action="Details" asp-route-id="@Model.Paginition.Last" aria-label="Last">
+                            <span aria-hidden="true">>></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Attention</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure to delete @Model.Car.CarNo ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <form asp-controller="Cars" asp-action="Delete" asp-route-id="@Model.Car.CarNo" method="post">
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
